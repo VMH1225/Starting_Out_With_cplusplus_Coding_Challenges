@@ -24,6 +24,7 @@ int main() {
 	int* rowPtr = new int[TOTAL_SEATS];
 	int* seatPtr = new int[TOTAL_SEATS];
 
+	// Initialize array of seats with "**" which represents that a seat is empty
 	for (int i = 0; i < ROWS; i++) {
 		for (int x = 0; x < COLS; x++) {
 			arr[i][x] = "**";
@@ -34,23 +35,28 @@ int main() {
 		
 				tickets_needed = inputInteger("\n\t\How many tickets would you like to purchase? ", 1, tickets_available);
 
+				// get row and seat number from user
 				for (int i = 0; i < tickets_needed; i++) {
 					int rowNum = inputInteger(("\n\n\t\tWhich row would you like for ticket " + to_string(i + 1) + ": "), 1, ROWS);
-					int colNum = inputInteger(("\n\t\tEnter the column: "), 1, COLS);
+					int seatNum = inputInteger(("\n\t\tEnter the column: "), 1, COLS);
 
-					if (arr[rowNum - 1][colNum - 1] == "##") {
+					// if that seat is taken ask the user to enter another seat until they choose an open seat
+					if (arr[rowNum - 1][seatNum - 1] == "##") {
 						do {
 							display_seats(arr, ROWS);
 							cout << "\n\n\t\tThat seat is no longer available. Please choose a different seat.";
 							rowNum = inputInteger(("\n\t\tWhich row would you like for ticket " + to_string(i + 1) + ": "), 1, ROWS);
-							colNum = inputInteger(("\n\t\tEnter the column: "), 1, COLS);
+							seatNum = inputInteger(("\n\t\tEnter the column: "), 1, COLS);
 
-						} while (arr[rowNum - 1][colNum - 1] == "##");
+						} while (arr[rowNum - 1][seatNum - 1] == "##");
 					}
-					cout << "\n\t\tAdding ticket at row " << rowNum << " column " << colNum << " to cart.";
-					arr[rowNum - 1][colNum - 1] = "##";
+
+					// change the users chosen seat number in "arr" to "##" which represents that it is taken
+					cout << "\n\t\tAdding ticket at row " << rowNum << " column " << seatNum << " to cart.";
+					arr[rowNum - 1][seatNum - 1] = "##";
+					// keep track of the row and seat numbers that are taken
 					rowPtr[i] = rowNum;
-					seatPtr[i] = colNum;
+					seatPtr[i] = seatNum;
 					count++;
 				}
 				cout << "\n\n";
@@ -58,6 +64,9 @@ int main() {
 				show_total(rowPtr, seatPtr, count, seat_cost);
 			}
 		
+			// Precondition: arr must be a 2D array of strings of either "**" or "##" values
+			//               which represent the seats that are available or taken.
+			// Postcondition: print out the seating chart
 			void display_seats(string arr[][COLS], int size) {
 				system("cls");
 				cout << "\n\t\tTicket price: $" << seat_cost;
@@ -73,6 +82,8 @@ int main() {
 					}
 				}
 
+			// Precondition: rows and seat must be pointers. tickets and cost must be positive integers
+			// Poscondition: print out the tickets purchased and the total cost
 				void show_total(int* rows, int* seat, int tickets, int cost) {
 					cout << "\n\t\tPurchase Total\n\t\t";
 					cout << string(29, char(205));
