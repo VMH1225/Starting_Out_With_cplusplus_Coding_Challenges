@@ -22,6 +22,9 @@ int main() {
 	}	
 }
 
+// Precondition: "arr" has to be a valid integer array. "size" has to be equal to the size of the "arr" array
+// Postondition: a new array is made as a copy of the "arr" array elements in reverse order. A pointer to 
+//				 the new array is returned.
 int* reverseArray(int arr[], int size) {
 	int* arrPtr = new int[size];
 	int y = 0;
@@ -30,4 +33,5 @@ int* reverseArray(int arr[], int size) {
 	}
 	return arrPtr;
 }
+
 
