@@ -11,8 +11,10 @@
 */
 
 #include <iostream>
-
+#include <cmath>
+int getAverage(int* arr, int size);
 using namespace std;
+
 
 int main() {
 	int survey_total = 0;
@@ -23,11 +25,23 @@ int main() {
 
 	for (int i = 0; i < survey_total; i++) {
 		cout << "\nEnter the amount of movies student " << i + 1 << " saw: ";
-		cin >> *ptr;
-		ptr++;
+		cin >> *(ptr + i);
 	}
 
 	for (int i = 0; i < survey_total; i++) {
 		cout << "\n\tStudent " << i + 1 << " saw " << *(ptr + i) << " movies";
 	}
+
+	cout << "\n\tThe students watched an average of " << getAverage(ptr, survey_total);
+
+}
+
+int getAverage(int* arr, int size) {
+	double total = 0;
+
+	for (int i = 0; i < size; i++) {
+		total += *arr++;
+	}
+	
+	return (total / size);
 }
