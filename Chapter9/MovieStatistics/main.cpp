@@ -19,6 +19,7 @@ double getAverage(int*, int);
 double getMedian(int*, int);
 void bubbleSort(int*, int);
 void swap(int*, int, int);
+void mode(int*, int);
 
 using namespace std;
 
@@ -47,6 +48,8 @@ int main() {
 	bubbleSort(ptr, survey_total);
 
 	 cout << "\n\tThe median values is " << fixed << setprecision(2) << getMedian(ptr, survey_total);
+
+	 mode(ptr, survey_total);
 }
 
 double getAverage(int* arr, int size) {
@@ -91,5 +94,28 @@ void swap(int* arr, int firstVal, int secondVal) {
 	arr[secondVal] = temp;
 }
 
+void mode(int* arr, int size) {
+	bubbleSort(arr, size);
+	int* counter = new int[size];
+	int count = 1;
+	for (int i = 0; i < size - 1; i++) {
+		count = 1;
+		for (int x = i + 1; x < size; x++) {
+			if (arr[i] == arr[x]) {
+				count++;
+			}
+		 }
+	}
 
-// get first element and check it with each subsequent element if it is greater than an element than swap the values
+	int num;
+	for (int i = 0; i < size; i++) {
+		
+	}
+}
+
+// sort array
+// first value equals num. check the subsequent values. add one to count until the next value does not equal num. 
+// add count to counter array.
+// set num equal to the next number repeat process.
+// then check the next value. 
+
