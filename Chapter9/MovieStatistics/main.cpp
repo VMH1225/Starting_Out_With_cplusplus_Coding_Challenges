@@ -96,20 +96,41 @@ void swap(int* arr, int firstVal, int secondVal) {
 
 void mode(int* arr, int size) {
 	bubbleSort(arr, size);
-	int* counter = new int[size];
-	int count = 1;
-	for (int i = 0; i < size - 1; i++) {
-		count = 1;
-		for (int x = i + 1; x < size; x++) {
-			if (arr[i] == arr[x]) {
-				count++;
-			}
-		 }
+
+	for (int i = 0; i < size; i++) {
+		cout << "---" << arr[i];
 	}
 
-	int num;
-	for (int i = 0; i < size; i++) {
-		
+	int* counter = new int[size];
+
+	int count = 1;
+	int countIndex = 0;
+	for (int i = 0; i < size - 1; i++) {
+		cout << "\nComparing " << arr[i] << " with " << arr[i + 1];
+		if (arr[i] == arr[i + 1]) {
+			count++;
+			if (i == size - 2) {
+				cout << "it got called at index " << countIndex;
+				counter[countIndex] = count;
+				countIndex++;
+			}
+		}
+		else {
+			counter[countIndex] = count;
+			countIndex++;
+			count = 1;
+		}
+	}
+	
+	if (countIndex == 0) {
+		counter[countIndex] = 1;
+		countIndex++;
+	}
+	// Need to add code find way to make mode function work if the
+	// greatest value occurs once. Ex. this data set wont work 2--5-3-8-1
+
+	for (int i = 0; i < (countIndex); i++) {
+		cout << "\n\n\tOccurences" << counter[i];
 	}
 }
 
@@ -119,3 +140,12 @@ void mode(int* arr, int size) {
 // set num equal to the next number repeat process.
 // then check the next value. 
 
+
+// compare 1 and 2 elements next to each other 
+// if they are equal increase count
+// compare 2 and 3 elements are they equal 
+// if yes increase count
+// compare the 3 and fourth elements
+// are they equal? 
+// no. add count to new array. set count to 0.
+//  compare 4th and 5th elements 
