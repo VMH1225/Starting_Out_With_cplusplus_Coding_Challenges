@@ -25,10 +25,12 @@ using namespace std;
 
 
 int main() {
+
+
 	int survey_total = 0;
 
 	do {
-		cout << "How many students were surveyed? Must be a positive integer ";
+		cout << "How many students were surveyed? (Must be a positive integer): ";
 		cin >> survey_total;
 	} while (survey_total < 0);
 
@@ -40,7 +42,12 @@ int main() {
 	}
 
 	for (int i = 0; i < survey_total; i++) {
-		cout << "\n\tStudent " << i + 1 << " saw " << *(ptr + i) << " movies";
+		if (*(ptr + i) == 1) {
+			cout << "\n\tStudent " << i + 1 << " saw " << *(ptr + i) << " movie";
+		}
+		else {
+			cout << "\n\tStudent " << i + 1 << " saw " << *(ptr + i) << " movies";
+		}
 	}
 
 	cout << "\n\tThe students watched an average of " << fixed << setprecision(2) << getAverage(ptr, survey_total);
@@ -67,9 +74,7 @@ double getMedian(int* arr, int size) {
 	bubbleSort(arr, size);
 	if (size % 2 == 0) {
 		midvalue = (size / 2) - 1;
-		 cout << "\n\nthe mid value is " << arr[midvalue];
 		midvalue2 = midvalue + 1;
-		cout << "\n\nthe mid value 222 is " << arr[midvalue2];
 		return (arr[midvalue] + arr[midvalue2]) / 2.0;
 		}
 	else {
@@ -96,41 +101,57 @@ void swap(int* arr, int firstVal, int secondVal) {
 
 void mode(int* arr, int size) {
 	bubbleSort(arr, size);
-
-	for (int i = 0; i < size; i++) {
-		cout << "---" << arr[i];
-	}
-
 	int* counter = new int[size];
 
 	int count = 1;
 	int countIndex = 0;
+	int total = 0;
 	for (int i = 0; i < size - 1; i++) {
-		cout << "\nComparing " << arr[i] << " with " << arr[i + 1];
 		if (arr[i] == arr[i + 1]) {
 			count++;
 			if (i == size - 2) {
-				cout << "it got called at index " << countIndex;
 				counter[countIndex] = count;
 				countIndex++;
+				total += count;
 			}
 		}
 		else {
 			counter[countIndex] = count;
 			countIndex++;
+			total += count;
 			count = 1;
 		}
 	}
 	
+	// causes function to work correctly if there is only one number in list 
 	if (countIndex == 0) {
 		counter[countIndex] = 1;
+		total += count;
 		countIndex++;
 	}
-	// Need to add code find way to make mode function work if the
-	// greatest value occurs once. Ex. this data set wont work 2--5-3-8-1
 
+	if (total < size) {
+		counter[countIndex] = 1;
+		countIndex++;
+
+	}
+
+	int* greatest = new int[countIndex];
+	int val = counter[0];;
 	for (int i = 0; i < (countIndex); i++) {
-		cout << "\n\n\tOccurences" << counter[i];
+		if (val < counter[i]) {
+			val = counter[i];
+		}
+	}
+
+	int values = val - 1;
+	// does not work for 1, 1, 3, 4, 5, 5, 8 data set. when their is a value in between 2 modes it does not get the 2nd correct mode
+	cout << "\nThe mode values are: ";
+	for (int i = 0; i < countIndex; i++) {
+		if (counter[i] == val) {	
+			cout << " " << arr[values];
+			values += val;
+		}
 	}
 }
 
