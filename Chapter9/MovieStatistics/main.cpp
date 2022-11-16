@@ -102,10 +102,13 @@ void swap(int* arr, int firstVal, int secondVal) {
 void mode(int* arr, int size) {
 	bubbleSort(arr, size);
 	int* counter = new int[size];
-
+	int greatest = 0;
 	int count = 1;
 	int countIndex = 0;
 	int total = 0;
+	//added if statement to see if the values being added to count array is equal to the greatest occurences.
+	//For example,if 2 appears twice then the if statement sets it as the greatest value. Maybe need to make a separate for loop
+	// for this operation. No you do have to make a separate for loop to implement this.
 	for (int i = 0; i < size - 1; i++) {
 		if (arr[i] == arr[i + 1]) {
 			count++;
@@ -121,46 +124,91 @@ void mode(int* arr, int size) {
 			total += count;
 			count = 1;
 		}
+		cout << "\nvalues counted " << total;
 	}
 	
 	// causes function to work correctly if there is only one number in list 
 	if (countIndex == 0) {
+		cout << "\n\t" << arr[0] << " is one of the modes";
+		greatest += 1;
 		counter[countIndex] = 1;
 		total += count;
 		countIndex++;
+		cout << "\nvalues counted only one value " << total;
+
 	}
+
 
 	if (total < size) {
+		if (count < 2 && greatest == 1) {
+			cout << "\n\t" << arr[size - 1] << " is one of the modes";
+		}
 		counter[countIndex] = 1;
 		countIndex++;
-
 	}
 
-	int* greatest = new int[countIndex];
-	int val = counter[0];;
+	int mostOccurences = counter[0];
 	for (int i = 0; i < (countIndex); i++) {
-		if (val < counter[i]) {
-			val = counter[i];
+		if (mostOccurences < counter[i]) {
+			mostOccurences = counter[i];
 		}
 	}
 
-	int values = val - 1;
-	// does not work for 1, 1, 3, 4, 5, 5, 8 data set. when their is a value in between 2 modes it does not get the 2nd correct mode
-	cout << "\nThe mode values are: ";
-	for (int i = 0; i < countIndex; i++) {
-		if (counter[i] == val) {	
-			cout << " " << arr[values];
-			values += val;
-		}
+	cout << "\n\n";
+		for (int i = 0; i < size; i++) {
+			cout << "---" << arr[i];
 	}
+	cout << "\n\nThe count equals before" << count;
+	count = 1;
+	cout << "\ntotal values counted " << total << "\ntotal values in array" << size << "\n most occurences " << mostOccurences;
+	//final step have values displayed if their count is equal to most occurences
+	for (int i = 0; i < size - 1; i++) {
+		if (arr[i] == arr[i + 1]) {
+			if ((count + 1) <= mostOccurences) {
+				count++;
+			}
+			cout << "\n\nThe count equals during loop" << count;
+			if (count == mostOccurences) {
+				cout << "\n\nMode hi: " << arr[i];
+				count = 1;
+			}
+		}
+		else if(count == mostOccurences) {
+				cout << "\n\nMode: " << arr[i];
+				count = 1;
+		}
+		else {
+				count = 1;
+			}
+		}
+	
+
+	
+	if (total < size && mostOccurences == 1) {
+			cout << "\n\t" << arr[size - 1] << " is one of the modes";
+	}
+
 }
+
+
+
+
+	//cout << "\n\n";
+	//for (int i = 0; i < size; i++) {
+	//	cout << "--" << arr[i];
+	//}
+
+	//cout << "\n\nThe greatest value appears " << val << " times";
+	// does not work for 1, 1, 3, 4, 5, 5, 8 data set. when their is a value in between 2 modes it does not get the 2nd correct mode
+	  
+
+
 
 // sort array
 // first value equals num. check the subsequent values. add one to count until the next value does not equal num. 
 // add count to counter array.
 // set num equal to the next number repeat process.
 // then check the next value. 
-
 
 // compare 1 and 2 elements next to each other 
 // if they are equal increase count
