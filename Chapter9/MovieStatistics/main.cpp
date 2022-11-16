@@ -9,24 +9,25 @@
   the functions you wrote in Problems 8 and 9 to calculate the median and mode.)
   Input Validation: Do not accept negative numbers for input.
 */
-
+//
 #include <iostream>
 #include <iomanip>
 #include <cassert>
 #include<stdio.h>
 #include <cmath>
+#include <vector>
+
+using namespace std;
+
 double getAverage(int*, int);
 double getMedian(int*, int);
 void bubbleSort(int*, int);
 void swap(int*, int, int);
-void mode(int*, int);
+vector<int> getMode(int*, int);
 
-using namespace std;
-
+const int COLS = 20;
 
 int main() {
-
-
 	int survey_total = 0;
 
 	do {
@@ -56,7 +57,92 @@ int main() {
 
 	 cout << "\n\tThe median values is " << fixed << setprecision(2) << getMedian(ptr, survey_total);
 
-	 mode(ptr, survey_total);
+	 vector<int> modeVector = getMode(ptr, survey_total);
+	 cout << "\nModes are: ";
+	 for (int val : modeVector) {
+		 cout << val << " ";
+	 }
+	 delete [] ptr;
+	 ptr = nullptr;
+}
+
+vector<int> getMode(int* arr, int size) {
+	bubbleSort(arr, size);
+	int* counter = new int[size];
+	int greatest = 0;
+	int count = 1;
+	int countIndex = 0;
+	int total = 0;
+	vector<int> modes;
+
+	for (int i = 0; i < size - 1; i++) {
+		if (arr[i] == arr[i + 1]) {
+			count++;
+			if (i == size - 2) {
+				counter[countIndex] = count;
+				countIndex++;
+				total += count;
+			}
+		}
+		else {
+			counter[countIndex] = count;
+			countIndex++;
+			total += count;
+			count = 1;
+		}
+	}
+
+	// causes function to work correctly if there is only one number in list 
+	if (countIndex == 0) {
+		greatest += 1;
+		counter[countIndex] = 1;
+		total += count;
+		countIndex++;
+		modes.push_back(arr[size - 1]);
+		cout << "\n\nMode: " << arr[size - 1];
+	}
+
+
+	if (total < size) {
+		if (count < 2 && greatest == 1) {
+			modes.push_back(arr[size - 1]);
+		}
+		counter[countIndex] = 1;
+		countIndex++;
+	}
+
+	int mostOccurences = counter[0];
+	for (int i = 0; i < (countIndex); i++) {
+		if (mostOccurences < counter[i]) {
+			mostOccurences = counter[i];
+		}
+	}
+
+	count = 1;
+	for (int i = 0; i < size - 1; i++) {
+		if (arr[i] == arr[i + 1]) {
+			if ((count + 1) <= mostOccurences) {
+				count++;
+			}
+			if (count == mostOccurences) {
+				modes.push_back(arr[i]);
+				count = 1;
+			}
+		}
+		else if (count == mostOccurences) {
+			modes.push_back(arr[i]);
+			count = 1;
+		}
+		else {
+			count = 1;
+		}
+	}
+
+	if (total < size && mostOccurences == 1) {
+		modes.push_back(arr[size - 1]);
+	}
+
+	return modes;
 }
 
 double getAverage(int* arr, int size) {
@@ -99,108 +185,8 @@ void swap(int* arr, int firstVal, int secondVal) {
 	arr[secondVal] = temp;
 }
 
-void mode(int* arr, int size) {
-	bubbleSort(arr, size);
-	int* counter = new int[size];
-	int greatest = 0;
-	int count = 1;
-	int countIndex = 0;
-	int total = 0;
-	//added if statement to see if the values being added to count array is equal to the greatest occurences.
-	//For example,if 2 appears twice then the if statement sets it as the greatest value. Maybe need to make a separate for loop
-	// for this operation. No you do have to make a separate for loop to implement this.
-	for (int i = 0; i < size - 1; i++) {
-		if (arr[i] == arr[i + 1]) {
-			count++;
-			if (i == size - 2) {
-				counter[countIndex] = count;
-				countIndex++;
-				total += count;
-			}
-		}
-		else {
-			counter[countIndex] = count;
-			countIndex++;
-			total += count;
-			count = 1;
-		}
-		cout << "\nvalues counted " << total;
-	}
-	
-	// causes function to work correctly if there is only one number in list 
-	if (countIndex == 0) {
-		cout << "\n\t" << arr[0] << " is one of the modes";
-		greatest += 1;
-		counter[countIndex] = 1;
-		total += count;
-		countIndex++;
-		cout << "\nvalues counted only one value " << total;
 
-	}
-
-
-	if (total < size) {
-		if (count < 2 && greatest == 1) {
-			cout << "\n\t" << arr[size - 1] << " is one of the modes";
-		}
-		counter[countIndex] = 1;
-		countIndex++;
-	}
-
-	int mostOccurences = counter[0];
-	for (int i = 0; i < (countIndex); i++) {
-		if (mostOccurences < counter[i]) {
-			mostOccurences = counter[i];
-		}
-	}
-
-	cout << "\n\n";
-		for (int i = 0; i < size; i++) {
-			cout << "---" << arr[i];
-	}
-	cout << "\n\nThe count equals before" << count;
-	count = 1;
-	cout << "\ntotal values counted " << total << "\ntotal values in array" << size << "\n most occurences " << mostOccurences;
-	//final step have values displayed if their count is equal to most occurences
-	for (int i = 0; i < size - 1; i++) {
-		if (arr[i] == arr[i + 1]) {
-			if ((count + 1) <= mostOccurences) {
-				count++;
-			}
-			cout << "\n\nThe count equals during loop" << count;
-			if (count == mostOccurences) {
-				cout << "\n\nMode hi: " << arr[i];
-				count = 1;
-			}
-		}
-		else if(count == mostOccurences) {
-				cout << "\n\nMode: " << arr[i];
-				count = 1;
-		}
-		else {
-				count = 1;
-			}
-		}
-	
-
-	
-	if (total < size && mostOccurences == 1) {
-			cout << "\n\t" << arr[size - 1] << " is one of the modes";
-	}
-
-}
-
-
-
-
-	//cout << "\n\n";
-	//for (int i = 0; i < size; i++) {
-	//	cout << "--" << arr[i];
-	//}
-
-	//cout << "\n\nThe greatest value appears " << val << " times";
-	// does not work for 1, 1, 3, 4, 5, 5, 8 data set. when their is a value in between 2 modes it does not get the 2nd correct mode
-	  
+//
 
 
 
