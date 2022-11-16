@@ -44,27 +44,70 @@ int main() {
 
 	for (int i = 0; i < survey_total; i++) {
 		if (*(ptr + i) == 1) {
-			cout << "\n\tStudent " << i + 1 << " saw " << *(ptr + i) << " movie";
+			cout << "\n\tStudent " << i + 1 << " saw " << *(ptr + i) << " movie.";
 		}
 		else {
-			cout << "\n\tStudent " << i + 1 << " saw " << *(ptr + i) << " movies";
+			cout << "\n\tStudent " << i + 1 << " saw " << *(ptr + i) << " movies.";
 		}
 	}
 
-	cout << "\n\tThe students watched an average of " << fixed << setprecision(2) << getAverage(ptr, survey_total);
+	cout << "\n\n\tMovie Statistics\n\t";
+	cout << string(16, 205);
+	cout << "\n\tAverage: " << fixed << setprecision(2) << getAverage(ptr, survey_total);
 
 	bubbleSort(ptr, survey_total);
-
-	 cout << "\n\tThe median values is " << fixed << setprecision(2) << getMedian(ptr, survey_total);
+	cout << "\n\tMedian: " << fixed << setprecision(2) << getMedian(ptr, survey_total);
 
 	 vector<int> modeVector = getMode(ptr, survey_total);
-	 cout << "\nModes are: ";
+	 cout << "\n\tMode(s): ";
 	 for (int val : modeVector) {
 		 cout << val << " ";
 	 }
 	 delete [] ptr;
 	 ptr = nullptr;
 }
+
+double getAverage(int* arr, int size) {
+	double total = 0;
+
+	for (int i = 0; i < size; i++) {
+		total += *arr++;
+	}	
+
+	return (total / size);
+}
+
+
+double getMedian(int* arr, int size) {
+	int midvalue, midvalue2;
+	bubbleSort(arr, size);
+	if (size % 2 == 0) {
+		midvalue = (size / 2) - 1;
+		midvalue2 = midvalue + 1;
+		return (arr[midvalue] + arr[midvalue2]) / 2.0;
+		}
+	else {
+		midvalue = size / 2;
+		return arr[midvalue];
+	}
+}
+
+void bubbleSort(int* arr, int size) {
+	for (int x = size; x > 0; x--) {
+		for (int i = 0; i < size - 1; i++) {
+			if (arr[i] > arr[i + 1]) {
+				swap(arr, i, i + 1);
+			}
+		}
+	}
+}
+
+void swap(int* arr, int firstVal, int secondVal) {
+	int temp = arr[firstVal];
+	arr[firstVal] = arr[secondVal];
+	arr[secondVal] = temp;
+}
+
 
 vector<int> getMode(int* arr, int size) {
 	bubbleSort(arr, size);
@@ -144,63 +187,3 @@ vector<int> getMode(int* arr, int size) {
 
 	return modes;
 }
-
-double getAverage(int* arr, int size) {
-	double total = 0;
-
-	for (int i = 0; i < size; i++) {
-		total += *arr++;
-	}	
-	return (total / size);
-}
-
-
-double getMedian(int* arr, int size) {
-	int midvalue, midvalue2;
-	bubbleSort(arr, size);
-	if (size % 2 == 0) {
-		midvalue = (size / 2) - 1;
-		midvalue2 = midvalue + 1;
-		return (arr[midvalue] + arr[midvalue2]) / 2.0;
-		}
-	else {
-		midvalue = size / 2;
-		return arr[midvalue];
-	}
-}
-
-void bubbleSort(int* arr, int size) {
-	for (int x = size; x > 0; x--) {
-		for (int i = 0; i < size - 1; i++) {
-			if (arr[i] > arr[i + 1]) {
-				swap(arr, i, i + 1);
-			}
-		}
-	}
-}
-
-void swap(int* arr, int firstVal, int secondVal) {
-	int temp = arr[firstVal];
-	arr[firstVal] = arr[secondVal];
-	arr[secondVal] = temp;
-}
-
-
-//
-
-
-
-// sort array
-// first value equals num. check the subsequent values. add one to count until the next value does not equal num. 
-// add count to counter array.
-// set num equal to the next number repeat process.
-// then check the next value. 
-
-// compare 1 and 2 elements next to each other 
-// if they are equal increase count
-// compare 2 and 3 elements are they equal 
-// if yes increase count
-// compare the 3 and fourth elements
-// are they equal? 
-// no. add count to new array. set count to 0.
-//  compare 4th and 5th elements 
