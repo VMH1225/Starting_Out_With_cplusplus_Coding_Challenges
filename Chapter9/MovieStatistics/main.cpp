@@ -13,7 +13,7 @@
 #include <iostream>
 #include <iomanip>
 #include <cassert>
-#include<stdio.h>
+#include <stdio.h>
 #include <cmath>
 #include <vector>
 
