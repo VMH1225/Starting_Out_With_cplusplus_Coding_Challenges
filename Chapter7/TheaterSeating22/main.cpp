@@ -1,6 +1,4 @@
 // Chapter 7 Arrrays and Vectors Programming Challenge #22 Page 461
-
-
 #include <iostream>
 #include <iomanip>
 #include <string>
@@ -33,7 +31,7 @@ int main() {
 
 				display_seats(arr, ROWS);
 		
-				tickets_needed = inputInteger("\n\t\How many tickets would you like to purchase? ", 1, tickets_available);
+				tickets_needed = inputInteger("\n\tHow many tickets would you like to purchase? ", 1, tickets_available);
 
 				// get row and seat number from user
 				for (int i = 0; i < tickets_needed; i++) {
