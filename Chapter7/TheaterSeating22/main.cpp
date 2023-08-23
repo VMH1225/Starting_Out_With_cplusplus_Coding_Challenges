@@ -30,21 +30,26 @@ int main() {
 	}
 
 				display_seats(arr, ROWS);
-		
-				tickets_needed = inputInteger("\n\tHow many tickets would you like to purchase? ", 1, tickets_available);
+
+				cout << "How many tickets would you like to purchase: ";
+				cin >> tickets_needed;
+				// tickets_needed = inputInteger("\n\tHow many tickets would you like to purchase? ", 1, tickets_available);
 
 				// get row and seat number from user
 				for (int i = 0; i < tickets_needed; i++) {
-					int rowNum = inputInteger(("\n\n\t\tWhich row would you like for ticket " + to_string(i + 1) + ": "), 1, ROWS);
-					int seatNum = inputInteger(("\n\t\tEnter the column: "), 1, COLS);
+					int rowNum = 1;
+					int seatNum = 2;
+					// rowNum = inputInteger(("\n\n\t\tWhich row would you like for ticket " + to_string(i + 1) + ": "), 1, ROWS);
+					// seatNum = inputInteger(("\n\t\tEnter the column: "), 1, COLS);
 
 					// if that seat is taken ask the user to enter another seat until they choose an open seat
 					if (arr[rowNum - 1][seatNum - 1] == "##") {
 						do {
 							display_seats(arr, ROWS);
 							cout << "\n\n\t\tThat seat is no longer available. Please choose a different seat.";
-							rowNum = inputInteger(("\n\t\tWhich row would you like for ticket " + to_string(i + 1) + ": "), 1, ROWS);
-							seatNum = inputInteger(("\n\t\tEnter the column: "), 1, COLS);
+
+							// rowNum = inputInteger(("\n\t\tWhich row would you like for ticket " + to_string(i + 1) + ": "), 1, ROWS);
+							// seatNum = inputInteger(("\n\t\tEnter the column: "), 1, COLS);
 
 						} while (arr[rowNum - 1][seatNum - 1] == "##");
 					}
