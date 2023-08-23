@@ -33,6 +33,7 @@ int main() {
 
 				cout << "How many tickets would you like to purchase: ";
 				cin >> tickets_needed;
+				// program does not run in vscode when making call to function from header file
 				// tickets_needed = inputInteger("\n\tHow many tickets would you like to purchase? ", 1, tickets_available);
 
 				// get row and seat number from user
